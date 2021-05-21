@@ -20,7 +20,7 @@ router.get("/movies/getOne/:id", async(req, res) => {
         res.status(500).send("Movie does not exist");
     }
 })
-
+// curl -X POST -H"Content-Type:application/json" -d'{"title":"Avengers","dateReleased":"2019","Description":"good","actors":"RDJ","reviews":"good"}' localhost:5000/api/movies/create
 // Create products
 // curl -X POST -H"Content-Type:application/json" localhost:5000/api/movies/create
 router.post("/movies/create", async(req, res) => {
@@ -40,17 +40,13 @@ router.post("/movies/create", async(req, res) => {
 router.post("/movies/update/:id", async(req, res) => {
     try {
         const FIND = { _id: req.params.id };
-        const update = { title: req.body.title,
-            dateReleased: req.body.dateReleased,
-            Description: req.body.Description,
-            actors:req.body.actors,
-            reviews: req.body.reviews };
+        const update = { title: req.body.title };
         const prod = await Product.findOneAndUpdate(FIND, update, {
             returnOriginal: false
         })
         await prod.save();
 
-        res.send(`${req.params.id} has been updated with new price of £${update.price}`);
+        res.send(`${req.params.id} has been updated with new title of ${update.price}`);
     } catch {
         res.status(500).send("Product does not exist");
     }
